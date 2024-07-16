@@ -1,22 +1,54 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+.App {
+  text-align: center;
+  margin: 20px;
 }
 
 .App-header {
-  background-color: #282c34;
-  padding: 20px;
-  color: white;
-  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .section {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 8px;
+  margin: 20px 0;
 }
 
-.section h2 {
-  margin-top: 0;
+.no-bullets {
+  list-style-type: none;
+  padding: 0;
+}
+
+.no-bullets li {
+  margin-bottom: 10px; /* Add space between list items */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* Add space between the search input and table */
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  cursor: pointer;
+}
+
+.sortable .sort-arrows {
+  visibility: visible;
+}
+
+th.sort-asc .sort-arrows::before {
+  content: " 🔼";
+}
+
+th.sort-desc .sort-arrows::before {
+  content: " 🔽";
+}
+
+th.sort-arrows {
+  display: inline-block;
+  margin-left: 5px;
 }
