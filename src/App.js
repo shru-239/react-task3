@@ -241,24 +241,24 @@ const Task5 = () => {
   const initialColumns = {
     'unplanned': {
       name: 'Unplanned',
-      items: initialTasks
+      items: initialTasks,
     },
     'today': {
       name: 'Today',
-      items: []
+      items: [],
     },
     'tomorrow': {
       name: 'Tomorrow',
-      items: []
+      items: [],
     },
     'this-week': {
       name: 'This Week',
-      items: []
+      items: [],
     },
     'next-week': {
       name: 'Next Week',
-      items: []
-    }
+      items: [],
+    },
   };
 
   const [columns, setColumns] = useState(initialColumns);
@@ -280,12 +280,12 @@ const Task5 = () => {
         ...columns,
         [source.droppableId]: {
           ...sourceColumn,
-          items: sourceItems
+          items: sourceItems,
         },
         [destination.droppableId]: {
           ...destinationColumn,
-          items: destItems
-        }
+          items: destItems,
+        },
       });
     } else {
       const copiedItems = Array.from(sourceColumn.items);
@@ -296,8 +296,8 @@ const Task5 = () => {
         ...columns,
         [source.droppableId]: {
           ...sourceColumn,
-          items: copiedItems
-        }
+          items: copiedItems,
+        },
       });
     }
   };
@@ -305,68 +305,55 @@ const Task5 = () => {
   return (
     <div className="section">
       <h2>Task 5: Drag & Drop Task List</h2>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className="drag-drop-context">
         <DragDropContext onDragEnd={onDragEnd}>
-          {Object.entries(columns).map(([columnId, column], index) => {
-            return (
-              <div className="column" key={columnId}>
-                <h2>{column.name}</h2>
-                <Droppable droppableId={columnId} key={columnId}>
-                  {(provided, snapshot) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      style={{
-                        background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
-                        padding: 4,
-                        width: 250,
-                        minHeight: 500,
-                      }}
-                    >
-                      {column.items.map((item, index) => (
-                        <Draggable key={item.id} draggableId={item.id} index={index}>
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                userSelect: 'none',
-                                padding: 16,
-                                margin: '0 0 8px 0',
-                                minHeight: '50px',
-                                backgroundColor: snapshot.isDragging ? '#263B4A' : '#456C86',
-                                color: 'white',
-                                ...provided.draggableProps.style
-                              }}
-                            >
-                              {item.content}
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </div>
-            );
-          })}
+          {Object.entries(columns).map(([columnId, column], index) => (
+            <div key={columnId} className="column">
+              <h2>{column.name}</h2>
+              <Droppable droppableId={columnId}>
+                {(provided, snapshot) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className={`droppable ${snapshot.isDraggingOver ? 'dragging-over' : ''}`}
+                  >
+                    {column.items.map((item, index) => (
+                      <Draggable key={item.id} draggableId={item.id} index={index}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className={`draggable ${snapshot.isDragging ? 'dragging' : ''}`}
+                          >
+                            {item.content}
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </div>
+          ))}
         </DragDropContext>
       </div>
     </div>
   );
 };
 
-const App = () => (
-  <div className="App">
-    <header className="App-header">
-      <h1>React Tasks</h1>
-    </header>
-    <Task3 />
-    <Task4 />
-    <Task5 />
-  </div>
-);
+const App = () => {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>React Task App</h1>
+      </header>
+      <Task3 />
+      <Task4 />
+      <Task5 />
+    </div>
+  );
+};
 
 export default App;

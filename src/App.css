@@ -1,5 +1,13 @@
 /* App.css */
 
+/* General styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -11,105 +19,130 @@
 }
 
 .section {
-  margin: 20px auto;
+  margin: 20px 0;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  max-width: 1200px;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
+/* Task 3: Search Filter */
 input[type="text"] {
   padding: 10px;
-  margin-bottom: 20px;
-  width: 80%;
-  border: 1px solid #ddd;
+  margin: 10px 0;
   border-radius: 4px;
-}
-
-table {
+  border: 1px solid #ccc;
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
-table, th, td {
-  border: 1px solid #ddd;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-
-th.sortable {
-  cursor: pointer;
-}
-
-th.sort-asc::after {
-  content: "🔼";
-  margin-left: 5px;
-}
-
-th.sort-desc::after {
-  content: "🔽";
-  margin-left: 5px;
-}
-
-.sort-arrows {
-  display: inline-block;
-  margin-left: 5px;
-}
-
-ul.no-bullets {
+.no-bullets {
   list-style-type: none;
   padding: 0;
 }
 
-ul.no-bullets li {
-  padding: 5px;
-  border-bottom: 1px solid #ddd;
+.no-bullets li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
 
-ul.no-bullets li:last-child {
-  border-bottom: none;
+/* Task 4: Datagrid */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+th.sortable {
+  background-color: #f9f9f9;
+}
+
+th.sort-asc::after {
+  content: " 🔼";
+}
+
+th.sort-desc::after {
+  content: " 🔽";
+}
+
+.sort-arrows {
+  margin-left: 5px;
+}
+
+/* Task 5: Drag & Drop Task List */
+.drag-drop-context {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
 }
 
 .column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: inline-block;
+  vertical-align: top;
   margin: 0 10px;
+  padding: 10px;
+  background: lightgray;
+  border-radius: 8px;
+  min-height: 100px;
+  box-sizing: border-box;
+  flex: 1 1 0;
+  max-width: 300px; /* Adjust based on the desired maximum column width */
 }
 
 .column h2 {
-  background-color: #456C86;
+  text-align: center;
+  background: #282c34;
   color: white;
   padding: 10px;
-  border-radius: 4px 4px 0 0;
-  width: 100%;
-  text-align: center;
+  border-radius: 8px;
 }
 
-.column div {
-  background-color: lightgrey;
+/* .droppable {
+  background: lightgrey;
   padding: 4px;
-  width: 250px;
-  min-height: 500px;
-  border-radius: 0 0 4px 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  border-radius: 8px;
+  min-height: 300px;
+} */
+
+.droppable.dragging-over {
+  background: lightblue;
 }
 
-.column div div {
-  background-color: #456C86;
-  color: white;
+.draggable {
+  user-select: none;
   padding: 16px;
   margin: 0 0 8px 0;
   min-height: 50px;
+  color: white;
+  background-color: #456c86;
   border-radius: 4px;
-  user-select: none;
-  width: 100%;
-  text-align: center;
+}
+
+.draggable.dragging {
+  background-color: #263b4a;
+}
+
+.draggable:hover {
+  background-color: #263b4a;
+}
+
+.draggable:active {
+  background-color: #1a2733;
 }
