@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useTable } from 'react-table';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './App.css';
 
 // Task 3: Search Filter
@@ -87,16 +88,6 @@ const Task4 = () => {
         news: false,
         segments: 'New',
       },
-      {
-        checkbox: '',
-        customer: 'Jim Jam',
-        lastSeen: '2024-07-10',
-        orders: 4,
-        totalSpent: '$90',
-        latestPurchase: '2024-07-03',
-        news: true,
-        segments: 'VIP',
-      },
     ],
     []
   );
@@ -145,7 +136,7 @@ const Task4 = () => {
         accessor: 'latestPurchase',
       },
       {
-        Header: 'News Subscription',
+        Header: 'News',
         accessor: 'news',
         Cell: ({ value }) => (value ? '✔️' : '❌'),
       },
@@ -232,17 +223,150 @@ const Task4 = () => {
   );
 };
 
-// App Component
-const App = () => {
+// Task 5: Drag & Drop Task List
+const Task5 = () => {
+  const initialTasks = [
+    { id: 'task-1', content: 'Task 1' },
+    { id: 'task-2', content: 'Task 2' },
+    { id: 'task-3', content: 'Task 3' },
+    { id: 'task-4', content: 'Task 4' },
+    { id: 'task-5', content: 'Task 5' },
+    { id: 'task-6', content: 'Task 6' },
+    { id: 'task-7', content: 'Task 7' },
+    { id: 'task-8', content: 'Task 8' },
+    { id: 'task-9', content: 'Task 9' },
+    { id: 'task-10', content: 'Task 10' },
+  ];
+
+  const initialColumns = {
+    'unplanned': {
+      name: 'Unplanned',
+      items: initialTasks
+    },
+    'today': {
+      name: 'Today',
+      items: []
+    },
+    'tomorrow': {
+      name: 'Tomorrow',
+      items: []
+    },
+    'this-week': {
+      name: 'This Week',
+      items: []
+    },
+    'next-week': {
+      name: 'Next Week',
+      items: []
+    }
+  };
+
+  const [columns, setColumns] = useState(initialColumns);
+
+  const onDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const { source, destination } = result;
+    const sourceColumn = columns[source.droppableId];
+    const destinationColumn = columns[destination.droppableId];
+
+    if (source.droppableId !== destination.droppableId) {
+      const sourceItems = Array.from(sourceColumn.items);
+      const destItems = Array.from(destinationColumn.items);
+      const [removed] = sourceItems.splice(source.index, 1);
+      destItems.splice(destination.index, 0, removed);
+
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: sourceItems
+        },
+        [destination.droppableId]: {
+          ...destinationColumn,
+          items: destItems
+        }
+      });
+    } else {
+      const copiedItems = Array.from(sourceColumn.items);
+      const [removed] = copiedItems.splice(source.index, 1);
+      copiedItems.splice(destination.index, 0, removed);
+
+      setColumns({
+        ...columns,
+        [source.droppableId]: {
+          ...sourceColumn,
+          items: copiedItems
+        }
+      });
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>React Tasks</h1>
-      </header>
-      <Task3 />
-      <Task4 />
+    <div className="section">
+      <h2>Task 5: Drag & Drop Task List</h2>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {Object.entries(columns).map(([columnId, column], index) => {
+            return (
+              <div className="column" key={columnId}>
+                <h2>{column.name}</h2>
+                <Droppable droppableId={columnId} key={columnId}>
+                  {(provided, snapshot) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      style={{
+                        background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey',
+                        padding: 4,
+                        width: 250,
+                        minHeight: 500,
+                      }}
+                    >
+                      {column.items.map((item, index) => (
+                        <Draggable key={item.id} draggableId={item.id} index={index}>
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                userSelect: 'none',
+                                padding: 16,
+                                margin: '0 0 8px 0',
+                                minHeight: '50px',
+                                backgroundColor: snapshot.isDragging ? '#263B4A' : '#456C86',
+                                color: 'white',
+                                ...provided.draggableProps.style
+                              }}
+                            >
+                              {item.content}
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
+            );
+          })}
+        </DragDropContext>
+      </div>
     </div>
   );
 };
+
+const App = () => (
+  <div className="App">
+    <header className="App-header">
+      <h1>React Tasks</h1>
+    </header>
+    <Task3 />
+    <Task4 />
+    <Task5 />
+  </div>
+);
 
 export default App;
