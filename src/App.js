@@ -310,7 +310,7 @@ const Task5 = () => {
           {Object.entries(columns).map(([columnId, column], index) => (
             <div key={columnId} className="column">
               <h2>{column.name}</h2>
-              <Droppable droppableId={columnId}>
+              <Droppable droppableId={columnId} key={columnId}>
                 {(provided, snapshot) => (
                   <div
                     {...provided.droppableProps}
