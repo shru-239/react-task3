@@ -88,6 +88,16 @@ const Task4 = () => {
         news: false,
         segments: 'New',
       },
+      {
+        checkbox: '',
+        customer: 'Jim Jam',
+        lastSeen: '2024-07-10',
+        orders: 4,
+        totalSpent: '$90',
+        latestPurchase: '2024-07-03',
+        news: true,
+        segments: 'VIP',
+      },
     ],
     []
   );
@@ -136,7 +146,7 @@ const Task4 = () => {
         accessor: 'latestPurchase',
       },
       {
-        Header: 'News',
+        Header: 'New Subscription',
         accessor: 'news',
         Cell: ({ value }) => (value ? '✔️' : '❌'),
       },
