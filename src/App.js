@@ -208,8 +208,10 @@ const Task4 = () => {
                   {column.render('Header')}
                   {column.id === 'orders' && (
                     <span className="sort-arrows">
+                    <span role="img" aria-label="Sort Order">
                       🔼🔽
                     </span>
+                  </span>
                   )}
                 </th>
               ))}
